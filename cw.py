@@ -9,6 +9,7 @@ from IPython.display import Markdown, display
 
 
 ##Indexing Data anf outputting 2index.json"
+## it appaers the vector and relevance is set at the creation  of the vector also the language mode is used at this part ??
 def construct_index(directory_path):
     # set maximum input size
     max_input_size = 4096
@@ -33,3 +34,13 @@ def construct_index(directory_path):
     index.save_to_disk('index.json')
 
     return index
+
+#calling the function and passing in location of the data 
+construct_index("planningdata")
+
+def ask_ai():
+    index = GPTSimpleVectorIndex.load_from_disk('index.json')   ## reads in the index.json 
+    while True: 
+        query = input("What do you want to ask? ")
+        response = index.query(query)
+        display(Markdown(f"Response: <b>{response.response}</b>"))
